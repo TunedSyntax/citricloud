@@ -13,7 +13,7 @@ Your SSH is broken because `k8s/traefik.yaml` was deployed with `hostPort` confi
 1. Go to https://console.hetzner.cloud/
 2. Log in to your Hetzner Cloud account
 3. Click on your project
-4. Click on your server (49.13.95.148)
+4. Click on your server (look for your server name or IP address)
 5. Click the **"Console"** button (top right area)
 6. A web-based terminal will open
 
@@ -83,7 +83,7 @@ ufw allow 22/tcp
 
 From your local computer, try to SSH again:
 ```bash
-ssh your-username@49.13.95.148
+ssh your-username@your-server-ip
 ```
 
 **✅ SSH should now work!**
