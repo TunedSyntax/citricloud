@@ -13,6 +13,7 @@ The `hostPort` configuration in `traefik.yaml` binds directly to ports 80 and 44
 If you've already deployed `traefik.yaml` and lost SSH access:
 ```bash
 # From Hetzner console or recovery mode, delete the problematic deployment:
+# Note: --insecure-skip-tls-verify is needed when accessing from console/recovery mode
 kubectl --insecure-skip-tls-verify=true delete -f k8s/traefik.yaml
 # Then use K3s built-in Traefik or the HelmChart approach instead
 ```
@@ -113,11 +114,13 @@ If you can't connect via SSH after deploying K3s/Traefik:
 1. **Check if traefik.yaml was deployed with hostPort:**
    ```bash
    # From Hetzner console/recovery mode:
+   # Note: --insecure-skip-tls-verify is needed when accessing from console/recovery mode
    kubectl --insecure-skip-tls-verify=true get pods -n kube-system -o yaml | grep hostPort
    ```
 
 2. **Remove the problematic deployment:**
    ```bash
+   # Note: --insecure-skip-tls-verify is needed when accessing from console/recovery mode
    kubectl --insecure-skip-tls-verify=true delete -f k8s/traefik.yaml
    ```
 
