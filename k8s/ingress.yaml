@@ -3,9 +3,8 @@ kind: Ingress
 metadata:
   name: citricloud
   namespace: citricloud
-  annotations:
-    kubernetes.io/ingress.class: traefik
 spec:
+  ingressClassName: traefik
   rules:
     - host: citricloud.com
       http:
