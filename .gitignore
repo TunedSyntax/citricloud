@@ -14,5 +14,9 @@ yarn-error.log*
 frontend/dist/
 backend/dist/
 
+# Python
+backend-python/__pycache__/
+backend-python/data.db
+
 # OS
 .DS_Store
