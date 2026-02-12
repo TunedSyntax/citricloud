@@ -1,5 +1,24 @@
 # Citricloud K3s Setup Guide
 
+---
+## 🚨🚨🚨 LOST SSH ACCESS? CLICK HERE: [EMERGENCY-SSH-RECOVERY.md](EMERGENCY-SSH-RECOVERY.md) 🚨🚨🚨
+---
+
+## ⚠️ CRITICAL: READ THIS BEFORE DEPLOYING ANYTHING
+
+### ❌ DO NOT DEPLOY `k8s/traefik.yaml` - IT WILL BREAK YOUR SSH!
+
+**Why?** It uses `hostPort` which binds to ports 80/443 on your host and breaks networking.
+
+**What to use instead:**
+- ✅ **K3s built-in Traefik** (already installed, no deployment needed)
+- ✅ **`k8s/traefik-helmchart.yaml`** (uses NodePort - safe)
+
+**Already deployed it and lost SSH?**
+➡️ **[GO TO EMERGENCY RECOVERY GUIDE](EMERGENCY-SSH-RECOVERY.md)** ⬅️
+
+---
+
 ## ⚠️ IMPORTANT: Traefik Configuration Warning
 
 **DO NOT use `k8s/traefik.yaml`** - it uses `hostPort` which can break SSH connectivity!
