@@ -9,4 +9,9 @@ spec:
   targetNamespace: kube-system
   valuesContent: |-
     service:
-      type: LoadBalancer
+      type: NodePort
+    ports:
+      web:
+        nodePort: 30080
+      websecure:
+        nodePort: 30443
