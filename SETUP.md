@@ -12,7 +12,7 @@
 ```
 User → Cloudflare → Master IP (49.13.95.148)
   ↓
-  Firewall (Hetzner): Allow ports 80, 443
+  Firewall (Hetzner): Allow ports 22 (SSH), 80, 443
   ↓
   k3s Traefik Ingress Controller
   ↓
@@ -26,10 +26,11 @@ User → Cloudflare → Master IP (49.13.95.148)
 In Hetzner Cloud → Firewalls → your firewall rules:
 
 **Incoming Rules** (add these):
+- **SSH**: Allow port 22 from all IPs (0.0.0.0/0) - **REQUIRED for remote access**
 - **HTTP**: Allow port 80 from all IPs (0.0.0.0/0)
 - **HTTPS**: Allow port 443 from all IPs (0.0.0.0/0)
 
-DO NOT set up port ranges. Just allow ports 80 and 443 directly.
+DO NOT set up port ranges. Just allow ports 22, 80 and 443 directly.
 
 ### 2. DNS Setup (Cloudflare)
 
