@@ -1,0 +1,29 @@
+---
+# Simple ingress without TLS (we'll add TLS later if needed)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: citricloud
+  namespace: citricloud
+  annotations:
+    # Use Traefik ingress class (built-in to k3s)
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+    - host: citricloud.com
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: citricloud-backend
+                port:
+                  number: 4000
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: citricloud-frontend
+                port:
+                  number: 80
