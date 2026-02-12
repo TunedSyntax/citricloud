@@ -1,13 +1,12 @@
 ---
-# Simple ingress without TLS (we'll add TLS later if needed)
+# Ingress for nginx ingress controller (already deployed on your cluster)
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: citricloud
   namespace: citricloud
   annotations:
-    # Use Traefik ingress class (built-in to k3s)
-    kubernetes.io/ingress.class: traefik
+    kubernetes.io/ingress.class: nginx
 spec:
   rules:
     - host: citricloud.com

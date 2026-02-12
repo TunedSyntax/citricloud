@@ -40,6 +40,7 @@ jobs:
           push: true
           tags: |
             ${{ env.IMAGE_PREFIX }}/citricloud-frontend:latest
+            ${{ env.IMAGE_PREFIX }}/citricloud-frontend:stable
             ${{ env.IMAGE_PREFIX }}/citricloud-frontend:${{ github.sha }}
 
   build-backend:
@@ -68,4 +69,5 @@ jobs:
           push: true
           tags: |
             ${{ env.IMAGE_PREFIX }}/citricloud-backend:latest
+            ${{ env.IMAGE_PREFIX }}/citricloud-backend:stable
             ${{ env.IMAGE_PREFIX }}/citricloud-backend:${{ github.sha }}
