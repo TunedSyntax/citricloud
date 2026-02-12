@@ -3,8 +3,15 @@ kind: Ingress
 metadata:
   name: citricloud
   namespace: citricloud
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+    traefik.ingress.kubernetes.io/router.tls.certresolver: le
 spec:
   ingressClassName: traefik
+  tls:
+    - hosts:
+        - citricloud.com
+      secretName: citricloud-tls
   rules:
     - host: citricloud.com
       http:
