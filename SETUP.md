@@ -1,5 +1,22 @@
 # Citricloud K3s Setup Guide
 
+## ⚠️ IMPORTANT: Traefik Configuration Warning
+
+**DO NOT use `k8s/traefik.yaml`** - it uses `hostPort` which can break SSH connectivity!
+
+The `hostPort` configuration in `traefik.yaml` binds directly to ports 80 and 443 on the host network interface. This can interfere with the host's networking stack and cause SSH connectivity issues.
+
+**Recommended approaches:**
+1. **Use K3s built-in Traefik** (default) - K3s comes with Traefik pre-configured
+2. **Use `k8s/traefik-helmchart.yaml`** - Uses NodePort (safer than hostPort)
+
+If you've already deployed `traefik.yaml` and lost SSH access:
+```bash
+# From Hetzner console or recovery mode, delete the problematic deployment:
+kubectl --insecure-skip-tls-verify=true delete -f k8s/traefik.yaml
+# Then use K3s built-in Traefik or the HelmChart approach instead
+```
+
 ## What's Running
 
 - **Frontend (React/Vite)**: citricloud-frontend pods in `citricloud` namespace
@@ -88,6 +105,40 @@ kubectl --insecure-skip-tls-verify=true -n kube-system get svc traefik
 ```
 
 ## Troubleshooting
+
+### SSH Connectivity Issues
+
+If you can't connect via SSH after deploying K3s/Traefik:
+
+1. **Check if traefik.yaml was deployed with hostPort:**
+   ```bash
+   # From Hetzner console/recovery mode:
+   kubectl --insecure-skip-tls-verify=true get pods -n kube-system -o yaml | grep hostPort
+   ```
+
+2. **Remove the problematic deployment:**
+   ```bash
+   kubectl --insecure-skip-tls-verify=true delete -f k8s/traefik.yaml
+   ```
+
+3. **Verify SSH is running on the host:**
+   ```bash
+   # From Hetzner console:
+   systemctl status sshd
+   # or
+   systemctl status ssh
+   ```
+
+4. **Check firewall rules allow SSH (port 22):**
+   - Go to Hetzner Cloud Console → Firewalls
+   - Ensure port 22 is allowed from 0.0.0.0/0
+
+5. **Restart SSH service if needed:**
+   ```bash
+   systemctl restart sshd
+   ```
+
+### Traefik Issues
 
 If ingress says `ADDRESS: <none>`, Traefik isn't running. Check:
 ```bash
