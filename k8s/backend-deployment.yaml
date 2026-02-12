@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: citricloud-backend
+  namespace: citricloud
+  labels:
+    app: citricloud-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: citricloud-backend
+  template:
+    metadata:
+      labels:
+        app: citricloud-backend
+    spec:
+      containers:
+        - name: backend
+          image: ghcr.io/tunedsyntax/citricloud-backend:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 4000
+          env:
+            - name: NODE_ENV
+              value: production
+            - name: PORT
+              value: "4000"
+            - name: CORS_ORIGIN
+              value: "https://citricloud.com"
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 4000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 4000
+            initialDelaySeconds: 15
+            periodSeconds: 20

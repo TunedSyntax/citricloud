@@ -1,0 +1,28 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=development
+      - PORT=4000
+      - CORS_ORIGIN=http://localhost:5173
+    volumes:
+      - ./backend/src:/app/src
+    command: sh -c "npm install && npm run dev"
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_BASE=/api
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/index.html:/app/index.html
+      - ./frontend/vite.config.js:/app/vite.config.js
+    command: sh -c "npm install && npm run dev -- --host"
+    depends_on:
+      - backend
