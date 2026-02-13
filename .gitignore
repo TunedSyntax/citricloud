@@ -20,3 +20,6 @@ backend/data.db
 
 # OS
 .DS_Store
+
+# Credentials
+docs/secret.hetzner-credentials

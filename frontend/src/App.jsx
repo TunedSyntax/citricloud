@@ -61,6 +61,8 @@ const apiRequest = async (path, options = {}) => {
 function Layout({ token, profile, onLogout, children }) {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [theme, setTheme] = useState(() => localStorage.getItem("cc_theme") || "light");
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [servicesMenuOpen, setServicesMenuOpen] = useState(false);
 
   useEffect(() => {
     document.body.classList.toggle("theme-dark", theme === "dark");
@@ -72,11 +74,29 @@ function Layout({ token, profile, onLogout, children }) {
   return (
     <div className="app-shell">
       <div className="topbar-announcement">
-        🚀 Ready to transform your cloud strategy? <a href="#contact">Schedule a discovery call</a>
+        <span>
+          🚀 Ready to transform your cloud strategy? <a href="#contact">Schedule a discovery call</a>
+        </span>
+        <div className="topbar-links">
+          <a href="#">Docs</a>
+          <a href="#">Status</a>
+        </div>
       </div>
       <nav className="nav">
         <div className="logo">
-          <div className="logo-icon">C</div>
+          <img 
+            src={theme === "dark" 
+              ? "http://localhost:4000/api/assets/logos/darkmode.svg" 
+              : "http://localhost:4000/api/assets/logos/lightmode.svg"}
+            alt="Citricloud Logo"
+            className="logo-image"
+            onError={(e) => {
+              // Fallback to text logo if image fails
+              e.target.style.display = 'none';
+              e.target.nextElementSibling.style.display = 'flex';
+            }}
+          />
+          <div className="logo-icon" style={{display: 'none'}}>C</div>
           Citricloud
         </div>
         <div className="nav-center">
@@ -91,40 +111,74 @@ function Layout({ token, profile, onLogout, children }) {
             >
               About
             </NavLink>
-            <NavLink
-              to="/services"
-              className={({ isActive }) => (isActive ? "active" : "")}
+            <div 
+              className="nav-menu-item"
+              onMouseEnter={() => setServicesMenuOpen(true)}
+              onMouseLeave={() => setServicesMenuOpen(false)}
             >
-              Services
-            </NavLink>
+              <NavLink
+                to="/services"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Services
+                <svg className="nav-dropdown-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M7 10l5 5 5-5z" />
+                </svg>
+              </NavLink>
+              {servicesMenuOpen && (
+                <div className="megamenu">
+                  <div className="megamenu-content">
+                    <div className="megamenu-section">
+                      <h3>Services</h3>
+                      <ul>
+                        <li><a href="#strategy">Cloud Strategy</a></li>
+                        <li><a href="#platform">Platform Engineering</a></li>
+                        <li><a href="#reliability">Reliability</a></li>
+                      </ul>
+                    </div>
+                    <div className="megamenu-section">
+                      <h3>More</h3>
+                      <ul>
+                        <li><NavLink to="/pricing">Pricing</NavLink></li>
+                        <li><NavLink to="/resources">Resources</NavLink></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
             <NavLink
               to="/contact"
               className={({ isActive }) => (isActive ? "active" : "")}
             >
               Contact
             </NavLink>
-            <a href="#">Pricing</a>
-            <a href="#">Resources</a>
-          </div>
-          <div className="nav-search">
-            <input type="text" placeholder="Search..." />
           </div>
         </div>
         <div className="nav-actions">
-          <div className="nav-utility">
-            <a href="#" className="nav-utility-link">Docs</a>
-            <a href="#" className="nav-utility-link">Status</a>
-          </div>
           <button
-            className="nav-theme-toggle"
+            className="nav-icon-button nav-search-button"
+            onClick={() => setSearchOpen(true)}
+            aria-label="Open search"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M21 20.3l-4.3-4.3a7.5 7.5 0 10-1.4 1.4L19.6 21 21 20.3zM4.5 10.5a6 6 0 1112 0 6 6 0 01-12 0z" />
+            </svg>
+          </button>
+          <button
+            className="nav-icon-button nav-theme-toggle"
             onClick={() => setTheme(theme === "light" ? "dark" : "light")}
             aria-label="Toggle theme"
           >
-            {theme === "light" ? "🌙" : "☀️"}
-          </button>
-          <button className="nav-notification">
-            🔔
-            <span className="nav-notification-badge">2</span>
+            {theme === "light" ? (
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M21 14.5A8.5 8.5 0 119.5 3a7 7 0 0011.5 11.5z" />
+              </svg>
+            ) : (
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 4a1 1 0 011-1h0a1 1 0 010 2h0a1 1 0 01-1-1zm0 16a1 1 0 011 1h0a1 1 0 11-2 0h0a1 1 0 011-1zm8-8a1 1 0 011-1h0a1 1 0 110 2h0a1 1 0 01-1-1zm-16 0a1 1 0 01-1-1h0a1 1 0 112 0h0a1 1 0 01-1 1zm12.95-5.95a1 1 0 011.41 0h0a1 1 0 11-1.41 1.41h0a1 1 0 010-1.41zM5.64 18.36a1 1 0 010-1.41h0a1 1 0 111.41 1.41h0a1 1 0 01-1.41 0zM18.36 18.36a1 1 0 010-1.41h0a1 1 0 111.41 1.41h0a1 1 0 01-1.41 0zM5.64 5.64a1 1 0 011.41 0h0a1 1 0 11-1.41 1.41h0a1 1 0 010-1.41zM12 7.5a4.5 4.5 0 100 9 4.5 4.5 0 000-9z" />
+              </svg>
+            )}
           </button>
           {token ? (
             <div className={`nav-profile ${profileMenuOpen ? "active" : ""}`}>
@@ -153,16 +207,56 @@ function Layout({ token, profile, onLogout, children }) {
               Login
             </NavLink>
           )}
-          <a className="ghost nav-cta" href="#contact">
-            Book demo
-          </a>
         </div>
       </nav>
+      {searchOpen ? (
+        <div className="search-modal" onClick={() => setSearchOpen(false)}>
+          <div className="search-modal-panel" onClick={(event) => event.stopPropagation()}>
+            <div className="search-modal-header">
+              <h3>Search Citricloud</h3>
+              <button
+                className="nav-icon-button"
+                onClick={() => setSearchOpen(false)}
+                aria-label="Close search"
+              >
+                ✕
+              </button>
+            </div>
+            <input
+              type="text"
+              placeholder="Search services, docs, and updates..."
+              autoFocus
+            />
+            <div className="search-modal-hint">Press Esc or click outside to close.</div>
+          </div>
+        </div>
+      ) : null}
       <main className="page">
         {children}
       </main>
       <footer className="footer">
         <div className="footer-content">
+          <div className="footer-brand">
+            <div className="footer-brand-logo">
+              <img 
+                src={theme === "dark" 
+                  ? "http://localhost:4000/api/assets/logos/darkmode.svg" 
+                  : "http://localhost:4000/api/assets/logos/lightmode.svg"}
+                alt="Citricloud"
+                className="footer-logo-image"
+                onError={(e) => {
+                  // Fallback to text logo if image fails
+                  e.target.style.display = 'none';
+                  e.target.nextElementSibling.style.display = 'flex';
+                }}
+              />
+              <span style={{display: 'none'}}>C</span>
+            </div>
+            <div>
+              <strong>Citricloud</strong>
+              <p>Cloud delivery clarity for product teams navigating scale and security.</p>
+            </div>
+          </div>
           <div className="footer-section">
             <h4>Product</h4>
             <ul>
