@@ -60,6 +60,14 @@ const apiRequest = async (path, options = {}) => {
 
 function Layout({ token, profile, onLogout, children }) {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  const [theme, setTheme] = useState(() => localStorage.getItem("cc_theme") || "light");
+
+  useEffect(() => {
+    document.body.classList.toggle("theme-dark", theme === "dark");
+    document.body.classList.toggle("theme-light", theme === "light");
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("cc_theme", theme);
+  }, [theme]);
 
   return (
     <div className="app-shell">
@@ -95,12 +103,25 @@ function Layout({ token, profile, onLogout, children }) {
             >
               Contact
             </NavLink>
+            <a href="#">Pricing</a>
+            <a href="#">Resources</a>
           </div>
           <div className="nav-search">
             <input type="text" placeholder="Search..." />
           </div>
         </div>
         <div className="nav-actions">
+          <div className="nav-utility">
+            <a href="#" className="nav-utility-link">Docs</a>
+            <a href="#" className="nav-utility-link">Status</a>
+          </div>
+          <button
+            className="nav-theme-toggle"
+            onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+            aria-label="Toggle theme"
+          >
+            {theme === "light" ? "🌙" : "☀️"}
+          </button>
           <button className="nav-notification">
             🔔
             <span className="nav-notification-badge">2</span>
@@ -132,6 +153,9 @@ function Layout({ token, profile, onLogout, children }) {
               Login
             </NavLink>
           )}
+          <a className="ghost nav-cta" href="#contact">
+            Book demo
+          </a>
         </div>
       </nav>
       <main className="page">
@@ -196,15 +220,45 @@ function Home() {
   return (
     <div className="stack">
       <section className="hero">
-        <div className="badge">Enterprise Cloud Studio</div>
-        <h1>Confident cloud delivery for ambitious teams.</h1>
-        <p>
-          Citricloud helps product organizations design platforms that scale, stay
-          compliant, and delight developers.
-        </p>
-        <div className="cta-row">
-          <button className="primary">Plan a discovery call</button>
-          <button className="ghost">Download overview</button>
+        <div className="hero-inner">
+          <div className="hero-copy">
+            <div className="badge">Enterprise Cloud Studio</div>
+            <h1>Confident cloud delivery for ambitious teams.</h1>
+            <p>
+              Citricloud helps product organizations design platforms that scale, stay
+              compliant, and delight developers.
+            </p>
+            <div className="cta-row">
+              <button className="primary">Plan a discovery call</button>
+              <button className="ghost">Download overview</button>
+            </div>
+            <div className="hero-note">Trusted by global product orgs to reduce risk and move faster.</div>
+          </div>
+          <div className="hero-panel">
+            <div className="hero-panel-header">
+              <span className="hero-pill">Now onboarding</span>
+              <span className="hero-pill outline">Q2 2026</span>
+            </div>
+            <div className="hero-metrics">
+              <div className="hero-stat">
+                <div className="hero-stat-value">28%</div>
+                <div className="hero-stat-label">Cost reduction</div>
+              </div>
+              <div className="hero-stat">
+                <div className="hero-stat-value">3.4x</div>
+                <div className="hero-stat-label">Release speed</div>
+              </div>
+              <div className="hero-stat">
+                <div className="hero-stat-value">99.95%</div>
+                <div className="hero-stat-label">Uptime target</div>
+              </div>
+              <div className="hero-stat">
+                <div className="hero-stat-value">6 wks</div>
+                <div className="hero-stat-label">Launch runway</div>
+              </div>
+            </div>
+            <div className="hero-panel-footer">Launch readiness with security and observability built-in.</div>
+          </div>
         </div>
       </section>
 
