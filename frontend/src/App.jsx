@@ -59,41 +59,73 @@ const apiRequest = async (path, options = {}) => {
 };
 
 function Layout({ token, profile, onLogout, children }) {
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+
   return (
     <div className="app-shell">
+      <div className="topbar-announcement">
+        🚀 Ready to transform your cloud strategy? <a href="#contact">Schedule a discovery call</a>
+      </div>
       <nav className="nav">
-        <div className="logo">Citricloud</div>
-        <div className="nav-links">
-          <NavLink to="/" end className={({ isActive }) => (isActive ? "active" : "")}
-          >
-            Home
-          </NavLink>
-          <NavLink
-            to="/about"
-            className={({ isActive }) => (isActive ? "active" : "")}
-          >
-            About
-          </NavLink>
-          <NavLink
-            to="/services"
-            className={({ isActive }) => (isActive ? "active" : "")}
-          >
-            Services
-          </NavLink>
-          <NavLink
-            to="/contact"
-            className={({ isActive }) => (isActive ? "active" : "")}
-          >
-            Contact
-          </NavLink>
+        <div className="logo">
+          <div className="logo-icon">C</div>
+          Citricloud
+        </div>
+        <div className="nav-center">
+          <div className="nav-links">
+            <NavLink to="/" end className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              Home
+            </NavLink>
+            <NavLink
+              to="/about"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              About
+            </NavLink>
+            <NavLink
+              to="/services"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              Services
+            </NavLink>
+            <NavLink
+              to="/contact"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              Contact
+            </NavLink>
+          </div>
+          <div className="nav-search">
+            <input type="text" placeholder="Search..." />
+          </div>
         </div>
         <div className="nav-actions">
+          <button className="nav-notification">
+            🔔
+            <span className="nav-notification-badge">2</span>
+          </button>
           {token ? (
-            <div className="nav-user">
-              <span>{profile?.email || "Signed in"}</span>
-              <button className="ghost" onClick={onLogout}>
-                Log out
+            <div className={`nav-profile ${profileMenuOpen ? "active" : ""}`}>
+              <button 
+                className="nav-profile-button"
+                onClick={() => setProfileMenuOpen(!profileMenuOpen)}
+              >
+                <div className="nav-profile-avatar">
+                  {profile?.email?.charAt(0).toUpperCase() || "U"}
+                </div>
+                <span>{profile?.email?.split("@")[0] || "User"}</span>
               </button>
+              <div className="nav-profile-menu">
+                <a href="#">📊 Dashboard</a>
+                <a href="#">⚙️ Settings</a>
+                <a href="#">🔔 Notifications</a>
+                <div className="divider"></div>
+                <a href="#">📚 Documentation</a>
+                <a href="#">💬 Support</a>
+                <div className="divider"></div>
+                <button onClick={onLogout}>🚪 Log out</button>
+              </div>
             </div>
           ) : (
             <NavLink className="primary" to="/login">
@@ -106,8 +138,55 @@ function Layout({ token, profile, onLogout, children }) {
         {children}
       </main>
       <footer className="footer">
-        <div>Citricloud Studio, founded 2026</div>
-        <div>Delivering cloud clarity for product teams.</div>
+        <div className="footer-content">
+          <div className="footer-section">
+            <h4>Product</h4>
+            <ul>
+              <li><a href="#">Platform</a></li>
+              <li><a href="#">Pricing</a></li>
+              <li><a href="#">Security</a></li>
+              <li><a href="#">Status</a></li>
+            </ul>
+          </div>
+          <div className="footer-section">
+            <h4>Services</h4>
+            <ul>
+              <li><a href="#">Cloud Strategy</a></li>
+              <li><a href="#">Platform Engineering</a></li>
+              <li><a href="#">Reliability</a></li>
+              <li><a href="#">Consulting</a></li>
+            </ul>
+          </div>
+          <div className="footer-section">
+            <h4>Company</h4>
+            <ul>
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Partners</a></li>
+            </ul>
+          </div>
+          <div className="footer-section">
+            <h4>Legal</h4>
+            <ul>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms of Service</a></li>
+              <li><a href="#">Cookie Policy</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </div>
+        </div>
+        <div className="footer-bottom">
+          <div>
+            <strong>Citricloud</strong> • Founded 2026 • Delivering cloud clarity for product teams
+          </div>
+          <div className="footer-socials">
+            <a href="#" title="Twitter">𝕏</a>
+            <a href="#" title="LinkedIn">in</a>
+            <a href="#" title="GitHub">⚙</a>
+            <a href="#" title="Email">✉</a>
+          </div>
+        </div>
       </footer>
     </div>
   );

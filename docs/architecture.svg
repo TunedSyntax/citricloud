@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="10" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,3 L0,6 Z" fill="#333" />
+    </marker>
+    <style>
+      .box { fill: #f7f7f7; stroke: #333; stroke-width: 1.5; }
+      .title { font: 700 16px Arial, sans-serif; }
+      .text { font: 14px Arial, sans-serif; }
+      .small { font: 12px Arial, sans-serif; }
+      .arrow { stroke: #333; stroke-width: 1.5; marker-end: url(#arrow); }
+      .line { stroke: #333; stroke-width: 1.2; }
+      .group-title { font: 700 14px Arial, sans-serif; }
+    </style>
+  </defs>
+
+  <!-- Local section -->
+  <rect class="box" x="30" y="30" width="330" height="250" rx="8" />
+  <text class="group-title" x="40" y="55">Local Windows Laptop</text>
+  <rect class="box" x="50" y="80" width="290" height="40" rx="6" />
+  <text class="text" x="60" y="105">VS Code / PowerShell</text>
+  <rect class="box" x="50" y="135" width="290" height="40" rx="6" />
+  <text class="text" x="60" y="160">Docker Desktop Engine</text>
+  <rect class="box" x="50" y="190" width="290" height="40" rx="6" />
+  <text class="text" x="60" y="215">Local Docker Images</text>
+  <line class="line" x1="195" y1="120" x2="195" y2="135" />
+  <line class="line" x1="195" y1="175" x2="195" y2="190" />
+
+  <!-- Registry section -->
+  <rect class="box" x="430" y="70" width="300" height="90" rx="8" />
+  <text class="group-title" x="440" y="95">Image Registry</text>
+  <text class="text" x="450" y="125">GHCR: ghcr.io/tunedsyntax/*</text>
+
+  <!-- Internet section -->
+  <rect class="box" x="430" y="190" width="300" height="120" rx="8" />
+  <text class="group-title" x="440" y="215">Public Internet</text>
+  <text class="text" x="450" y="240">Browser</text>
+  <text class="text" x="450" y="260">DNS: citricloud.com</text>
+  <text class="small" x="450" y="280">Cloudflare: 188.114.96.3 / 188.114.97.3</text>
+
+  <!-- Server section -->
+  <rect class="box" x="780" y="30" width="390" height="620" rx="8" />
+  <text class="group-title" x="790" y="55">Remote Server: k3s Cluster</text>
+
+  <rect class="box" x="800" y="80" width="350" height="60" rx="6" />
+  <text class="text" x="810" y="105">k3s-master-01 (control-plane)</text>
+  <text class="small" x="810" y="125">IP: 10.0.0.2</text>
+
+  <rect class="box" x="800" y="150" width="350" height="60" rx="6" />
+  <text class="text" x="810" y="175">k3s-mgmt-01 (worker)</text>
+  <text class="small" x="810" y="195">IP: 10.0.0.3</text>
+
+  <rect class="box" x="800" y="220" width="350" height="60" rx="6" />
+  <text class="text" x="810" y="245">k3s-prod-01 (worker)</text>
+  <text class="small" x="810" y="265">IP: 10.0.0.4</text>
+
+  <rect class="box" x="800" y="310" width="350" height="50" rx="6" />
+  <text class="text" x="810" y="340">ingress-nginx controller</text>
+
+  <rect class="box" x="800" y="370" width="350" height="50" rx="6" />
+  <text class="text" x="810" y="400">cert-manager (TLS)</text>
+
+  <rect class="box" x="800" y="430" width="350" height="50" rx="6" />
+  <text class="text" x="810" y="460">Ingress: citricloud.com</text>
+
+  <rect class="box" x="800" y="490" width="350" height="60" rx="6" />
+  <text class="text" x="810" y="515">Services</text>
+  <text class="small" x="810" y="535">frontend:80, backend:4000</text>
+
+  <rect class="box" x="800" y="560" width="350" height="60" rx="6" />
+  <text class="text" x="810" y="585">Deployments / Pods</text>
+  <text class="small" x="810" y="605">frontend + backend</text>
+
+  <!-- Arrows: local to registry -->
+  <line class="arrow" x1="340" y1="210" x2="430" y2="110" />
+  <text class="small" x="330" y="145">docker push</text>
+
+  <!-- Arrows: registry to cluster -->
+  <line class="arrow" x1="730" y1="110" x2="800" y2="585" />
+  <text class="small" x="730" y="140">image pull</text>
+
+  <!-- Arrows: internet to ingress -->
+  <line class="arrow" x1="730" y1="260" x2="800" y2="455" />
+  <text class="small" x="730" y="290">HTTP/HTTPS</text>
+
+  <!-- Cluster flow -->
+  <line class="arrow" x1="975" y1="360" x2="975" y2="430" />
+  <line class="arrow" x1="975" y1="480" x2="975" y2="490" />
+  <line class="arrow" x1="975" y1="550" x2="975" y2="560" />
+</svg>

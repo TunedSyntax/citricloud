@@ -15,8 +15,8 @@ frontend/dist/
 backend/dist/
 
 # Python
-backend-python/__pycache__/
-backend-python/data.db
+backend/__pycache__/
+backend/data.db
 
 # OS
 .DS_Store
