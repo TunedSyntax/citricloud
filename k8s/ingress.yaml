@@ -11,6 +11,7 @@ spec:
   tls:
     - hosts:
         - citricloud.com
+        - api.citricloud.com
       secretName: citricloud-tls
   rules:
     - host: citricloud.com
@@ -30,3 +31,13 @@ spec:
                 name: citricloud-frontend
                 port:
                   number: 80
+    - host: api.citricloud.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: citricloud-backend
+                port:
+                  number: 4000

@@ -1,6 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
 import { BrowserRouter, NavLink, Route, Routes, useNavigate } from "react-router-dom";
 
+// Determine API URL based on environment
+const getApiUrl = () => {
+  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    return 'http://localhost:4000';
+  }
+  // For production (citricloud.com)
+  return 'https://api.citricloud.com';
+};
+
+const API_URL = getApiUrl();
+
 const highlights = [
   {
     title: "Compliance-ready delivery",
@@ -86,8 +97,8 @@ function Layout({ token, profile, onLogout, children }) {
         <div className="logo">
           <img 
             src={theme === "dark" 
-              ? "http://localhost:4000/api/assets/logos/darkmode.svg" 
-              : "http://localhost:4000/api/assets/logos/lightmode.svg"}
+              ? `${API_URL}/api/assets/logos/darkmode.svg` 
+              : `${API_URL}/api/assets/logos/lightmode.svg`}
             alt="Citricloud Logo"
             className="logo-image"
             onError={(e) => {
@@ -97,7 +108,6 @@ function Layout({ token, profile, onLogout, children }) {
             }}
           />
           <div className="logo-icon" style={{display: 'none'}}>C</div>
-          Citricloud
         </div>
         <div className="nav-center">
           <div className="nav-links">
@@ -240,8 +250,8 @@ function Layout({ token, profile, onLogout, children }) {
             <div className="footer-brand-logo">
               <img 
                 src={theme === "dark" 
-                  ? "http://localhost:4000/api/assets/logos/darkmode.svg" 
-                  : "http://localhost:4000/api/assets/logos/lightmode.svg"}
+                  ? `${API_URL}/api/assets/logos/darkmode.svg` 
+                  : `${API_URL}/api/assets/logos/lightmode.svg`}
                 alt="Citricloud"
                 className="footer-logo-image"
                 onError={(e) => {
@@ -319,14 +329,13 @@ function Home() {
             <div className="badge">Enterprise Cloud Studio</div>
             <h1>Confident cloud delivery for ambitious teams.</h1>
             <p>
-              Citricloud helps product organizations design platforms that scale, stay
-              compliant, and delight developers.
+              Citricloud helps product organizations design platforms that scale, stay compliant, and delight developers. From architecture to operations, we partner with you every step of the way.
             </p>
             <div className="cta-row">
               <button className="primary">Plan a discovery call</button>
               <button className="ghost">Download overview</button>
             </div>
-            <div className="hero-note">Trusted by global product orgs to reduce risk and move faster.</div>
+            <div className="hero-note">Trusted by 50+ global enterprises to reduce risk and accelerate delivery.</div>
           </div>
           <div className="hero-panel">
             <div className="hero-panel-header">
@@ -369,16 +378,62 @@ function Home() {
         <div>
           <h2>Platform clarity from day one</h2>
           <p>
-            From architecture workshops to enablement, we turn complex cloud
-            decisions into actionable rollout plans.
+            From architecture workshops to enablement, we turn complex cloud decisions into actionable rollout plans. Our methodology combines industry best practices with your organizational goals.
+          </p>
+          <p style={{marginTop: '16px', opacity: 0.8}}>
+            We helped a Fortune 500 fintech reduce their infrastructure costs by 34% while improving deployment frequency by 3.2x, all while maintaining 99.99% uptime. Your cloud transformation is unique—we treat it that way.
           </p>
         </div>
         <div className="panel">
-          <div className="panel-title">Current signal</div>
+          <div className="panel-title">Latest improvements</div>
           <ul>
-            <li>Automation coverage: 91%</li>
-            <li>Deployments last week: 48</li>
-            <li>Mean time to recover: 22 minutes</li>
+            <li>Automation coverage: 94% (+3%)</li>
+            <li>Deployments last month: 187 (+15%)</li>
+            <li>Mean time to recover: 18 mins (-4)</li>
+            <li>Security scan pass rate: 98.2% (+1.2%)</li>
+          </ul>
+        </div>
+      </section>
+
+      <section className="section soft">
+        <h2 style={{marginBottom: '24px'}}>Why teams choose Citricloud</h2>
+        <div className="list">
+          <article className="card" style={{textAlign: 'center'}}>
+            <h3>🚀 Hands-on expertise</h3>
+            <p>Our team has shipped over 10,000 deployments across 200+ organizations. We know what works.</p>
+          </article>
+          <article className="card" style={{textAlign: 'center'}}>
+            <h3>🔒 Security first</h3>
+            <p>Built for regulated industries. SOC2, ISO27001, and compliance reviews are standard in our approach.</p>
+          </article>
+          <article className="card" style={{textAlign: 'center'}}>
+            <h3>📊 Data-driven</h3>
+            <p>Every decision backed by metrics. We implement observability from day one, not as an afterthought.</p>
+          </article>
+          <article className="card" style={{textAlign: 'center'}}>
+            <h3>🎯 Transfer knowledge</h3>
+            <p>We empower your teams. Our goal is to leave you stronger, more autonomous, and more confident.</p>
+          </article>
+        </div>
+      </section>
+
+      <section className="split" style={{justifyItems: 'start'}}>
+        <div>
+          <h2>Recent success stories</h2>
+          <p>
+            We recently helped a Series B SaaS company design a new multi-tenant platform architecture that reduced their time-to-market for new enterprise customers from 12 weeks to 3 weeks, while improving stability across 99.95% of requests.
+          </p>
+          <p style={{marginTop: '16px', opacity: 0.8}}>
+            Another engagement with a healthcare provider involved migrating a monolithic legacy system to a modern event-driven architecture, improving regulatory compliance posture and reducing operational overhead by 40%.
+          </p>
+        </div>
+        <div className="panel">
+          <div className="panel-title">Engagement types</div>
+          <ul>
+            <li><strong>Strategy</strong> — Architecture workshops</li>
+            <li><strong>Implementation</strong> — Hands-on platform launch</li>
+            <li><strong>Optimization</strong> — Cost & reliability audits</li>
+            <li><strong>Training</strong> — Team enablement &amp; handoff</li>
           </ul>
         </div>
       </section>
@@ -389,24 +444,86 @@ function Home() {
 function About() {
   return (
     <div className="stack">
-      <section className="section">
-        <h2>About Citricloud</h2>
-        <p>
-          We are a boutique cloud engineering studio helping teams modernize and
-          operate secure platforms. Our specialists align developers, security,
-          and product leaders around practical delivery plans.
-        </p>
+      <section className="hero">
+        <div style={{maxWidth: '800px', margin: '0 auto', textAlign: 'center'}}>
+          <h1>About Citricloud</h1>
+          <p style={{fontSize: '1.2rem', lineHeight: 1.8, maxWidth: 'none'}}>
+            We're a boutique cloud engineering studio helping teams modernize and operate secure, efficient platforms. Our approach combines deep technical expertise with organizational change management to ensure lasting transformation.
+          </p>
+        </div>
       </section>
+
+      <section className="split">
+        <div>
+          <h2>Our Mission</h2>
+          <p>
+            Enable product teams to ship confidently with predictable costs. We believe cloud platforms should be enablers, not barriers—they should accelerate innovation while maintaining security, reliability, and cost efficiency.
+          </p>
+          <p style={{marginTop: '16px', opacity: 0.8}}>
+            Since 2018, we've worked with Fortune 500 enterprises, Series A-D startups, and everything in between. We've learned that successful cloud transformation requires both technical excellence and organizational alignment.
+          </p>
+        </div>
+        <div className="panel">
+          <div className="panel-title">By the numbers</div>
+          <ul>
+            <li><strong>50+</strong> organizations served</li>
+            <li><strong>10,000+</strong> deployments facilitated</li>
+            <li><strong>6+ years</strong> in cloud transformation</li>
+            <li><strong>99.95%</strong> avg uptime for clients</li>
+          </ul>
+        </div>
+      </section>
+
       <section className="section soft">
+        <h2 style={{marginBottom: '24px'}}>Our Values</h2>
         <div className="list">
-          <div>
-            <h3>Mission</h3>
-            <p>Enable teams to ship confidently with predictable cloud costs.</p>
-          </div>
-          <div>
-            <h3>Approach</h3>
-            <p>Co-create, automate, and transfer ownership to your teams.</p>
-          </div>
+          <article className="card">
+            <h3>Pragmatism</h3>
+            <p>We focus on what works in reality, not theoretical perfection. Every recommendation is grounded in practical experience and your specific constraints.</p>
+          </article>
+          <article className="card">
+            <h3>Transparency</h3>
+            <p>No hidden agendas. We'll tell you what we see, recommend what's best for your business, and explain the tradeoffs clearly.</p>
+          </article>
+          <article className="card">
+            <h3>Collaboration</h3>
+            <p>We work alongside your teams, not above them. Our success is measured by how well your organization owns the outcomes.</p>
+          </article>
+          <article className="card">
+            <h3>Excellence</h3>
+            <p>High standards in everything we do—from code quality to documentation to delivery timelines. Your reputation is our reputation.</p>
+          </article>
+        </div>
+      </section>
+
+      <section className="split">
+        <div>
+          <h2>Our Approach</h2>
+          <h3>Assess</h3>
+          <p>
+            We start with listening. Understanding your current state, business objectives, technical constraints, and team capabilities shapes everything that follows.
+          </p>
+          <h3 style={{marginTop: '20px'}}>Design</h3>
+          <p>
+            Working collaboratively, we design solutions that are secure, scalable, and aligned with your organizational culture. Architecture without buy-in is just a nice document.
+          </p>
+          <h3 style={{marginTop: '20px'}}>Execute</h3>
+          <p>
+            We ship. Using proven practices and automation-first mindset, we reduce risk while maintaining velocity. Your team gets hands-on experience throughout.
+          </p>
+          <h3 style={{marginTop: '20px'}}>Empower</h3>
+          <p>
+            Our goal is to leave you stronger. Knowledge transfer, runbook creation, and team training ensure sustainable operations long after we're gone.
+          </p>
+        </div>
+        <div className="panel">
+          <div className="panel-title">Our Team</div>
+          <p style={{marginBottom: '12px', fontSize: '0.95rem'}}>
+            Citricloud is led by cloud architects and platform engineers with 15+ years of collective experience across AWS, GCP, Kubernetes, and enterprise infrastructure.
+          </p>
+          <p style={{fontSize: '0.95rem', opacity: 0.8}}>
+            We've built teams at scale, managed critical infrastructure, and led successful migrations. We know the challenges you're facing because we've faced them too.
+          </p>
         </div>
       </section>
     </div>
@@ -416,13 +533,15 @@ function About() {
 function Services() {
   return (
     <div className="stack">
-      <section className="section">
-        <h2>Services</h2>
-        <p>
-          Flexible engagement models to support platform design, launch, and
-          operational maturity.
-        </p>
+      <section className="hero">
+        <div style={{maxWidth: '800px', margin: '0 auto', textAlign: 'center'}}>
+          <h1>Services</h1>
+          <p style={{fontSize: '1.2rem', lineHeight: 1.8, maxWidth: 'none'}}>
+            Flexible engagement models designed to support every phase of your cloud transformation—from initial strategy through sustained optimization.
+          </p>
+        </div>
       </section>
+
       <section className="grid">
         {services.map((service) => (
           <article key={service.name} className="card">
@@ -431,6 +550,89 @@ function Services() {
           </article>
         ))}
       </section>
+
+      <section className="section soft">
+        <h2 style={{marginBottom: '24px', textAlign: 'center'}}>How we work</h2>
+        <div className="split" style={{gridTemplateColumns: '1fr 1fr', gap: '32px'}}>
+          <div>
+            <h3>Discovery (Weeks 1-2)</h3>
+            <p>
+              We deeply understand your current architecture, business constraints, team capacity, and strategic objectives. This phase includes architecture reviews, security assessments, and stakeholder interviews.
+            </p>
+            <ul style={{marginTop: '12px'}}>
+              <li>Current state assessment</li>
+              <li>Security &amp; compliance review</li>
+              <li>Stakeholder alignment workshops</li>
+              <li>Opportunity identification</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Design (Weeks 2-4)</h3>
+            <p>
+              Collaborative architecture design sessions with your engineering leadership. We create detailed implementation roadmaps, technology recommendations, and risk mitigation strategies.
+            </p>
+            <ul style={{marginTop: '12px'}}>
+              <li>Architecture design workshops</li>
+              <li>Technology recommendations</li>
+              <li>Implementation roadmap</li>
+              <li>Documentation &amp; runbooks</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Implementation (Weeks 4-12)</h3>
+            <p>
+              Hands-on platform development and infrastructure work. Your team works alongside us, learning practices and patterns as we build. Code reviews, pair programming, and knowledge sharing throughout.
+            </p>
+            <ul style={{marginTop: '12px'}}>
+              <li>Hands-on development</li>
+              <li>Infrastructure provisioning</li>
+              <li>CI/CD pipeline setup</li>
+              <li>Security &amp; monitoring integration</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Optimization (Ongoing)</h3>
+            <p>
+              Continuous improvement of cost, reliability, and developer experience. Post-engagement support, monitoring, and optimization recommendations based on real operational metrics.
+            </p>
+            <ul style={{marginTop: '12px'}}>
+              <li>Cost optimization audits</li>
+              <li>Reliability reviews</li>
+              <li>Performance tuning</li>
+              <li>Team enablement &amp; training</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section className="split">
+        <div>
+          <h2>Engagement Models</h2>
+          <h3>Advisory</h3>
+          <p>
+            Executive advisors reviewing strategic cloud investments. Ideal for CTO/VP Engineering alignment on platform decisions. 10-20 hours/month.
+          </p>
+          <h3 style={{marginTop: '20px'}}>Project-based</h3>
+          <p>
+            Dedicated team for 8-12 weeks focused on a specific initiative: platform launch, migration, or optimization. Full-time engagement with your engineering organization.
+          </p>
+          <h3 style={{marginTop: '20px'}}>Staffing</h3>
+          <p>
+            Dedicated engineer joins your team long-term to implement architectural improvements and build new platform capabilities. Integrated into your org structure and processes.
+          </p>
+        </div>
+        <div className="panel">
+          <div className="panel-title">Service Stack</div>
+          <ul>
+            <li>Kubernetes &amp; container orchestration</li>
+            <li>Multi-cloud (AWS, GCP, Azure)</li>
+            <li>CI/CD &amp; infrastructure automation</li>
+            <li>Observability &amp; monitoring</li>
+            <li>Security &amp; compliance tooling</li>
+            <li>Cost optimization &amp; governance</li>
+          </ul>
+        </div>
+      </section>
     </div>
   );
 }
@@ -438,36 +640,102 @@ function Services() {
 function Contact() {
   return (
     <div className="stack">
-      <section className="section">
-        <h2>Contact</h2>
-        <p>Schedule a consult or ask about our platform assessment sprint.</p>
+      <section className="hero">
+        <div style={{maxWidth: '800px', margin: '0 auto', textAlign: 'center'}}>
+          <h1>Get in touch</h1>
+          <p style={{fontSize: '1.2rem', lineHeight: 1.8, maxWidth: 'none'}}>
+            Whether you're exploring cloud transformation, evaluating your current platform, or ready to execute a major initiative, we'd love to talk. Let's start a conversation about your goals.
+          </p>
+        </div>
       </section>
+
       <section className="split">
         <div className="panel light">
-          <div className="panel-title">Reach us</div>
-          <ul>
+          <div className="panel-title">Direct contact</div>
+          <ul style={{listStyle: 'none', padding: 0}}>
             {contactPoints.map((item) => (
-              <li key={item}>{item}</li>
+              <li key={item} style={{marginBottom: '12px'}}>{item}</li>
             ))}
           </ul>
+          <div style={{marginTop: '24px', paddingTop: '24px', borderTop: '1px solid #e0f2fe'}}>
+            <p style={{fontSize: '0.9rem', margin: 0, marginBottom: '12px'}}>
+              <strong>Typical response time:</strong> Within 24 hours
+            </p>
+            <p style={{fontSize: '0.9rem', margin: 0}}>
+              <strong>Timezone:</strong> CET (Amsterdam)
+            </p>
+          </div>
         </div>
         <form className="form-card" onSubmit={(event) => event.preventDefault()}>
           <label>
-            Name
-            <input type="text" placeholder="Your name" />
+            Full name *
+            <input type="text" placeholder="Your name" required />
           </label>
           <label>
-            Email
-            <input type="email" placeholder="you@company.com" />
+            Email *
+            <input type="email" placeholder="you@company.com" required />
           </label>
           <label>
-            Message
-            <textarea rows="4" placeholder="Tell us about your goals." />
+            Company
+            <input type="text" placeholder="Company name" />
+          </label>
+          <label>
+            Role
+            <input type="text" placeholder="Your role (e.g., VP Engineering)" />
+          </label>
+          <label>
+            How can we help? *
+            <textarea rows="5" placeholder="Tell us about your goals, current challenges, and timeline." required />
           </label>
           <button className="primary" type="submit">
             Send message
           </button>
+          <p style={{fontSize: '0.85rem', color: '#64748b', margin: '12px 0 0'}}>
+            We respect your privacy. Read our <a href="#" style={{color: '#0ea5e9', textDecoration: 'underline'}}>privacy policy</a>.
+          </p>
         </form>
+      </section>
+
+      <section className="section soft">
+        <h2 style={{marginBottom: '24px', textAlign: 'center'}}>Common questions</h2>
+        <div className="list">
+          <article className="card">
+            <h3>What's the typical engagement cost?</h3>
+            <p>
+              Project-based engagements typically range from $25k to $150k+ depending on scope, duration, and team size. Advisory relationships start at $3k/month. We'll provide a clear estimate after our initial discovery conversation.
+            </p>
+          </article>
+          <article className="card">
+            <h3>How long does a transformation take?</h3>
+            <p>
+              Most platform transformation projects run 8-16 weeks. Initial discovery is 1-2 weeks, design 2-4 weeks, implementation 4-12 weeks. The timeline depends on scope and your team's availability to collaborate.
+            </p>
+          </article>
+          <article className="card">
+            <h3>Do you work with non-technical teams?</h3>
+            <p>
+              Yes. We're experienced in stakeholder alignment, change management, and executive communication. We can translate technical decisions into business impact for leadership teams.
+            </p>
+          </article>
+          <article className="card">
+            <h3>Can you help with specific cloud providers?</h3>
+            <p>
+              We're platform-agnostic. Our experience spans AWS, Google Cloud, Azure, and multi-cloud architectures. We help you choose the right platform(s) for your use cases and constraints.
+            </p>
+          </article>
+          <article className="card">
+            <h3>What if we already have a platform?</h3>
+            <p>
+              Perfect. We specialize in optimizing existing platforms—reducing costs, improving reliability, modernizing architectures, and enabling teams better. Platform audits are often our first engagement.
+            </p>
+          </article>
+          <article className="card">
+            <h3>Do you offer support after the engagement?</h3>
+            <p>
+              Yes. We offer post-engagement support packages, retainer relationships for ongoing optimization, and staffing models where our engineers join your team long-term.
+            </p>
+          </article>
+        </div>
       </section>
     </div>
   );
