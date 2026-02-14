@@ -3,6 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function() {
+        const isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const apiUrl = isDev ? 'http://localhost:4000' : 'https://api.citricloud.com';
+        const link = document.createElement('link');
+        link.rel = 'icon';
+        link.type = 'image/x-icon';
+        link.href = apiUrl + '/api/assets/icons/favicon/favicon.ico?v=1';
+        document.head.appendChild(link);
+      })();
+    </script>
     <title>CITRICLOUD - Building Digital Experiences</title>
   </head>
   <body>

@@ -74,6 +74,8 @@ function Layout({ token, profile, onLogout, children }) {
   const [theme, setTheme] = useState(() => localStorage.getItem("cc_theme") || "light");
   const [searchOpen, setSearchOpen] = useState(false);
   const [servicesMenuOpen, setServicesMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const servicesMenuTimeout = useMemo(() => ({ current: null }), []);
 
   useEffect(() => {
     document.body.classList.toggle("theme-dark", theme === "dark");
@@ -81,6 +83,25 @@ function Layout({ token, profile, onLogout, children }) {
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("cc_theme", theme);
   }, [theme]);
+
+  useEffect(() => {
+    // Prevent body scroll when mobile menu is open
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [mobileMenuOpen]);
+
+  useEffect(() => {
+    // Cleanup timeout on unmount
+    return () => {
+      if (servicesMenuTimeout.current) clearTimeout(servicesMenuTimeout.current);
+    };
+  }, [servicesMenuTimeout]);
 
   return (
     <div className="app-shell">
@@ -123,8 +144,15 @@ function Layout({ token, profile, onLogout, children }) {
             </NavLink>
             <div 
               className="nav-menu-item"
-              onMouseEnter={() => setServicesMenuOpen(true)}
-              onMouseLeave={() => setServicesMenuOpen(false)}
+              onMouseEnter={() => {
+                if (servicesMenuTimeout.current) clearTimeout(servicesMenuTimeout.current);
+                setServicesMenuOpen(true);
+              }}
+              onMouseLeave={() => {
+                servicesMenuTimeout.current = setTimeout(() => {
+                  setServicesMenuOpen(false);
+                }, 150);
+              }}
             >
               <NavLink
                 to="/services"
@@ -136,7 +164,13 @@ function Layout({ token, profile, onLogout, children }) {
                 </svg>
               </NavLink>
               {servicesMenuOpen && (
-                <div className="megamenu">
+                <div 
+                  className="megamenu"
+                  onMouseEnter={() => {
+                    if (servicesMenuTimeout.current) clearTimeout(servicesMenuTimeout.current);
+                  }}
+                  onMouseLeave={() => setServicesMenuOpen(false)}
+                >
                   <div className="megamenu-content">
                     <div className="megamenu-section">
                       <h3>Services</h3>
@@ -190,6 +224,19 @@ function Layout({ token, profile, onLogout, children }) {
               </svg>
             )}
           </button>
+          <button
+            className="nav-mobile-toggle"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle mobile menu"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              {mobileMenuOpen ? (
+                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+              ) : (
+                <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+              )}
+            </svg>
+          </button>
           {token ? (
             <div className={`nav-profile ${profileMenuOpen ? "active" : ""}`}>
               <button 
@@ -219,6 +266,109 @@ function Layout({ token, profile, onLogout, children }) {
           )}
         </div>
       </nav>
+      {mobileMenuOpen && (
+        <div className="mobile-menu-overlay" onClick={() => setMobileMenuOpen(false)}>
+          <div className="mobile-menu" onClick={(e) => e.stopPropagation()}>
+            <div className="mobile-menu-header">
+              <div className="logo">
+                <img 
+                  src={theme === "dark" 
+                    ? `${API_URL}/api/assets/logos/darkmode.svg` 
+                    : `${API_URL}/api/assets/logos/lightmode.svg`}
+                  alt="Citricloud Logo"
+                  className="logo-image"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.nextElementSibling.style.display = 'flex';
+                  }}
+                />
+                <div className="logo-icon" style={{display: 'none'}}>C</div>
+              </div>
+              <button
+                className="mobile-menu-close"
+                onClick={() => setMobileMenuOpen(false)}
+                aria-label="Close mobile menu"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                </svg>
+              </button>
+            </div>
+            <div className="mobile-menu-content">
+              <NavLink 
+                to="/" 
+                end 
+                className={({ isActive }) => (isActive ? "active" : "")}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Home
+              </NavLink>
+              <NavLink
+                to="/about"
+                className={({ isActive }) => (isActive ? "active" : "")}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                About
+              </NavLink>
+              <div className="mobile-menu-section">
+                <div className="mobile-menu-section-title">Services</div>
+                <div className="mobile-menu-section-content">
+                  <a href="#strategy" onClick={() => setMobileMenuOpen(false)}>Cloud Strategy</a>
+                  <a href="#platform" onClick={() => setMobileMenuOpen(false)}>Platform Engineering</a>
+                  <a href="#reliability" onClick={() => setMobileMenuOpen(false)}>Reliability</a>
+                </div>
+              </div>
+              <NavLink
+                to="/pricing"
+                className={({ isActive }) => (isActive ? "active" : "")}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Pricing
+              </NavLink>
+              <NavLink
+                to="/resources"
+                className={({ isActive }) => (isActive ? "active" : "")}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Resources
+              </NavLink>
+              <NavLink
+                to="/contact"
+                className={({ isActive }) => (isActive ? "active" : "")}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Contact
+              </NavLink>
+              {token ? (
+                <>
+                  <div className="mobile-menu-divider"></div>
+                  <div className="mobile-menu-user">
+                    <div className="nav-profile-avatar">
+                      {profile?.email?.charAt(0).toUpperCase() || "U"}
+                    </div>
+                    <span>{profile?.email?.split("@")[0] || "User"}</span>
+                  </div>
+                  <a href="#">📊 Dashboard</a>
+                  <a href="#">⚙️ Settings</a>
+                  <a href="#">🔔 Notifications</a>
+                  <div className="mobile-menu-divider"></div>
+                  <a href="#">📚 Documentation</a>
+                  <a href="#">💬 Support</a>
+                  <div className="mobile-menu-divider"></div>
+                  <button onClick={() => { onLogout(); setMobileMenuOpen(false); }}>🚪 Log out</button>
+                </>
+              ) : (
+                <>
+                  <div className="mobile-menu-divider"></div>
+                  <NavLink className="mobile-menu-login" to="/login" onClick={() => setMobileMenuOpen(false)}>
+                    Login
+                  </NavLink>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
       {searchOpen ? (
         <div className="search-modal" onClick={() => setSearchOpen(false)}>
           <div className="search-modal-panel" onClick={(event) => event.stopPropagation()}>
@@ -249,21 +399,14 @@ function Layout({ token, profile, onLogout, children }) {
           <div className="footer-brand">
             <div className="footer-brand-logo">
               <img 
-                src={theme === "dark" 
-                  ? `${API_URL}/api/assets/logos/darkmode.svg` 
-                  : `${API_URL}/api/assets/logos/lightmode.svg`}
-                alt="Citricloud"
-                className="footer-logo-image"
-                onError={(e) => {
-                  // Fallback to text logo if image fails
-                  e.target.style.display = 'none';
-                  e.target.nextElementSibling.style.display = 'flex';
-                }}
+                src={`${API_URL}/api/assets/icons/icon.svg?v=1`}
+                alt="CITRICLOUD Icon"
+                className="footer-icon"
+                style={{ width: '100%', height: '100%' }}
               />
-              <span style={{display: 'none'}}>C</span>
             </div>
             <div>
-              <strong>Citricloud</strong>
+              <strong>CITRICLOUD</strong>
               <p>Cloud delivery clarity for product teams navigating scale and security.</p>
             </div>
           </div>

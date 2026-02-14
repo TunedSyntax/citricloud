@@ -146,6 +146,7 @@ app.get("/api/assets/*", async (req, res) => {
         ".jpeg": "image/jpeg",
         ".gif": "image/gif",
         ".webp": "image/webp",
+        ".ico": "image/x-icon",
       };
 
       const contentType = contentTypes[ext] || "application/octet-stream";
@@ -153,6 +154,8 @@ app.get("/api/assets/*", async (req, res) => {
       res.set({
         "Content-Type": contentType,
         "Cache-Control": "public, max-age=31536000", // Cache for 1 year
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET",
       });
       
       res.send(result.buffer);
