@@ -19,7 +19,7 @@ if ($LASTEXITCODE -ne 0) { throw "Backend build failed." }
 Write-Host "Starting containers..." -ForegroundColor Yellow
 docker run -d --name citricloud-backend -p 4000:4000 ghcr.io/tunedsyntax/citricloud-backend:latest | Out-Null; docker run -d --name citricloud-frontend -p 8080:80 ghcr.io/tunedsyntax/citricloud-frontend:latest | Out-Null
 
-Write-Host "✓ Containers running" -ForegroundColor Green
+Write-Host "Containers running successfully" -ForegroundColor Green
 Write-Host "  Frontend: http://localhost:8080" -ForegroundColor Cyan
 Write-Host "  Backend: http://localhost:4000" -ForegroundColor Cyan
-Write-Host "Refresh browser to see changes (Ctrl+Shift+R for hard refresh)" -ForegroundColor Yellow
+Write-Host "Refresh browser to see changes" -ForegroundColor Yellow
