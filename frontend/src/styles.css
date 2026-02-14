@@ -1385,11 +1385,14 @@ body.theme-dark .mobile-menu-user {
 
 body.theme-dark .mobile-menu-login {
   background: #64c5ff !important;
-  color: #0b3b62 !important;
+  color: #0b1220 !important;
+  font-weight: 700 !important;
+  box-shadow: 0 6px 12px rgba(100, 197, 255, 0.3) !important;
 }
 
 body.theme-dark .mobile-menu-login:hover {
   background: #3fb0ff !important;
+  box-shadow: 0 8px 16px rgba(100, 197, 255, 0.4) !important;
 }
 
 body.theme-dark .hero,
@@ -1450,6 +1453,13 @@ body.theme-dark textarea {
 body.theme-dark .primary {
   background: #64c5ff;
   color: #0b1220;
+  font-weight: 700;
+  box-shadow: 0 8px 16px rgba(100, 197, 255, 0.3);
+}
+
+body.theme-dark .primary:hover {
+  background: #3fb0ff;
+  box-shadow: 0 12px 24px rgba(100, 197, 255, 0.4);
 }
 
 body.theme-dark .ghost {
@@ -1461,6 +1471,7 @@ body.theme-dark .ghost {
 body.theme-dark .status {
   background: rgba(100, 197, 255, 0.1);
   border-left-color: #64c5ff;
+  color: #e6f1ff;
 }
 
 body.theme-dark .footer {

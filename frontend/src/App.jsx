@@ -53,7 +53,10 @@ const contactPoints = [
 ];
 
 const apiRequest = async (path, options = {}) => {
-  const response = await fetch(path, {
+  // If path is relative and doesn't start with http, prepend API_URL
+  const url = path.startsWith("http") ? path : (API_URL + path);
+  
+  const response = await fetch(url, {
     headers: {
       "Content-Type": "application/json",
       ...(options.token ? { Authorization: `Bearer ${options.token}` } : {})
