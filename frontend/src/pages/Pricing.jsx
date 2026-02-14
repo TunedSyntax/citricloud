@@ -27,6 +27,11 @@ function Pricing() {
         <article className="card">
           <h3>Starter</h3>
           <p>For teams validating a platform roadmap.</p>
+          <div className="price-tag">
+            <span className="price-amount">$4,500</span>
+            <span className="price-unit">/ month</span>
+          </div>
+          <p className="price-note">Billed quarterly</p>
           <ul className="checklist">
             <li>Discovery and architecture review</li>
             <li>1 platform pilot</li>
@@ -36,6 +41,11 @@ function Pricing() {
         <article className="card">
           <h3>Growth</h3>
           <p>For organizations scaling multiple teams.</p>
+          <div className="price-tag">
+            <span className="price-amount">$9,500</span>
+            <span className="price-unit">/ month</span>
+          </div>
+          <p className="price-note">Billed quarterly</p>
           <ul className="checklist">
             <li>Platform MVP delivery</li>
             <li>Developer portal and pipelines</li>
@@ -45,6 +55,11 @@ function Pricing() {
         <article className="card">
           <h3>Enterprise</h3>
           <p>For complex portfolios and regulated environments.</p>
+          <div className="price-tag">
+            <span className="price-amount">Custom</span>
+            <span className="price-unit">/ engagement</span>
+          </div>
+          <p className="price-note">Tailored scope and outcomes</p>
           <ul className="checklist">
             <li>Multi-cloud operating model</li>
             <li>Compliance automation</li>

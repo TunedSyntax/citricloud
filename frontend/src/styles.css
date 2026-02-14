@@ -1023,6 +1023,33 @@ button:hover,
   border: 1px solid #e0f2fe;
 }
 
+.price-tag {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 14px 0 8px;
+  color: #0c3d66;
+}
+
+.price-amount {
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.price-unit {
+  font-size: 0.9rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.price-note {
+  margin: 0 0 12px;
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
 .split {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
@@ -1617,6 +1644,18 @@ body.theme-dark .section.soft {
   color: #e6f1ff;
   border: 1px solid #2a3f5f;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+body.theme-dark .price-tag {
+  color: #e6f1ff;
+}
+
+body.theme-dark .price-unit {
+  color: #94a3b8;
+}
+
+body.theme-dark .price-note {
+  color: #94a3b8;
 }
 
 body.theme-dark input,
