@@ -6,7 +6,6 @@ function Docs() {
       <section className="hero">
         <div className="hero-inner">
           <div className="hero-copy">
-            <div className="badge">Docs Hub</div>
             <h1>Documentation for every step of your platform journey.</h1>
             <p>Get started fast with guides, API references, and best practices.</p>
             <div className="cta-row">

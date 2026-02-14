@@ -6,7 +6,6 @@ function Partners() {
       <section className="hero">
         <div className="hero-inner">
           <div className="hero-copy">
-            <div className="badge">Partner Network</div>
             <h1>Partner with Citricloud to deliver cloud excellence.</h1>
             <p>We collaborate with technology providers, MSPs, and integrators.</p>
             <div className="cta-row">

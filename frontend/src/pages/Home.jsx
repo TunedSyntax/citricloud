@@ -6,7 +6,6 @@ function Home() {
       <section className="hero">
         <div className="hero-inner">
           <div className="hero-copy">
-            <div className="badge">Cloud Platform Studio</div>
             <h1>Confident cloud delivery for ambitious teams.</h1>
             <p>
               Citricloud helps product organizations design platforms that scale, stay compliant, and delight developers. From architecture to operations, we partner with you every step of the way.

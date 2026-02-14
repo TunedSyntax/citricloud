@@ -7,6 +7,10 @@ function NewsArticle() {
   const article = newsArticles.find((item) => item.id === parseInt(id));
   const [readProgress, setReadProgress] = useState(0);
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [userRating, setUserRating] = useState(0);
+  const [email, setEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
   const [activeSection, setActiveSection] = useState('');
 
   // Calculate reading progress
@@ -28,6 +32,18 @@ function NewsArticle() {
     if (article) {
       const bookmarks = JSON.parse(localStorage.getItem('bookmarkedArticles') || '[]');
       setIsBookmarked(bookmarks.includes(article.id));
+      
+      // Load article rating
+      const ratings = JSON.parse(localStorage.getItem('articleRatings') || '{}');
+      setUserRating(ratings[article.id] || 0);
+      
+      // Track article view count
+      const viewKey = `articleViews_${article.id}`;
+      const currentViews = parseInt(localStorage.getItem(viewKey) || '0', 10);
+      localStorage.setItem(viewKey, String(currentViews + 1));
+      
+      // Simulate view count
+      setRating(article.id * 100 + 250);
     }
   }, [article]);
 
@@ -166,6 +182,28 @@ function NewsArticle() {
                 >
                   <span className="material-symbols-outlined">print</span>
                 </button>
+              </div>
+
+              {/* Article Rating */}
+              <div className="article-rating-section">
+                <h5>Was this helpful?</h5>
+                <div className="article-rating-stars">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      className={`rating-star ${userRating >= star ? 'active' : ''}`}
+                      onClick={() => {
+                        setUserRating(star);
+                        const ratings = JSON.parse(localStorage.getItem('articleRatings') || '{}');
+                        ratings[article.id] = star;
+                        localStorage.setItem('articleRatings', JSON.stringify(ratings));
+                      }}
+                      title={`Rate ${star} star${star > 1 ? 's' : ''}`}
+                    >
+                      <span className="material-symbols-outlined">star</span>
+                    </button>
+                  ))}
+                </div>
               </div>
               
               <div className="article-stats">
@@ -451,6 +489,38 @@ function NewsArticle() {
           </div>
         </section>
       )}
+
+      {/* Newsletter Subscription */}
+      <section className="article-newsletter">
+        <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
+          <h2>Stay Updated with Citricloud News</h2>
+          <p>Get the latest insights on cloud infrastructure, DevOps, and best practices delivered to your inbox.</p>
+          {subscribed ? (
+            <div className="newsletter-success">
+              <span className="material-symbols-outlined">check_circle</span>
+              <p>Thanks for subscribing! You'll receive our latest articles and updates.</p>
+            </div>
+          ) : (
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              if (email) {
+                setSubscribed(true);
+                setEmail('');
+                setTimeout(() => setSubscribed(false), 5000);
+              }
+            }} className="newsletter-form">
+              <input
+                type="email"
+                placeholder="Enter your email..."
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <button type="submit" className="button-secondary">Subscribe</button>
+            </form>
+          )}
+        </div>
+      </section>
 
       <section className="section">
         <div style={{ maxWidth: '700px', margin: '0 auto', textAlign: 'center' }}>

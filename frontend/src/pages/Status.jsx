@@ -6,7 +6,6 @@ function Status() {
       <section className="hero">
         <div className="hero-inner">
           <div className="hero-copy">
-            <div className="badge">Service Health</div>
             <h1>Citricloud service status.</h1>
             <p>Real-time visibility into platform health, planned maintenance, and incidents.</p>
             <div className="cta-row">

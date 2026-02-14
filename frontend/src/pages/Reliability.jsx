@@ -6,7 +6,6 @@ function Reliability() {
       <section className="hero">
         <div className="hero-inner">
           <div className="hero-copy">
-            <div className="badge">SRE Ops</div>
             <h1>Operational excellence with SRE practices built-in.</h1>
             <p>Improve uptime, reduce incidents, and ship with confidence.</p>
             <div className="cta-row">

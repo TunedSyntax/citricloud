@@ -6,7 +6,6 @@ function Consulting() {
       <section className="hero">
         <div className="hero-inner">
           <div className="hero-copy">
-            <div className="badge">Delivery Squad</div>
             <h1>Hands-on cloud consulting that delivers outcomes.</h1>
             <p>Senior practitioners who embed with your teams to execute critical work.</p>
             <div className="cta-row">

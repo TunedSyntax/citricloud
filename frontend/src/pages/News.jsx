@@ -7,18 +7,41 @@ function News() {
   const [selectedTag, setSelectedTag] = useState('All');
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState('newest');
 
   const featuredArticles = useMemo(() => {
     return newsArticles.filter((article) => article.featured);
   }, []);
 
   const filteredArticles = useMemo(() => {
-    return newsArticles.filter((article) => {
+    let filtered = newsArticles.filter((article) => {
       const categoryMatch = selectedCategory === 'All' || article.category === selectedCategory;
       const tagMatch = selectedTag === 'All' || article.tags.includes(selectedTag);
-      return categoryMatch && tagMatch;
+      const searchMatch = searchQuery === '' || 
+        article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        article.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+      return categoryMatch && tagMatch && searchMatch;
     });
-  }, [selectedCategory, selectedTag]);
+
+    // Sort articles
+    if (sortBy === 'newest') {
+      filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+    } else if (sortBy === 'oldest') {
+      filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
+    } else if (sortBy === 'title') {
+      filtered.sort((a, b) => a.title.localeCompare(b.title));
+    } else if (sortBy === 'popular') {
+      // Sort by view count (stored in localStorage)
+      filtered.sort((a, b) => {
+        const viewsA = parseInt(localStorage.getItem(`articleViews_${a.id}`) || '0', 10);
+        const viewsB = parseInt(localStorage.getItem(`articleViews_${b.id}`) || '0', 10);
+        return viewsB - viewsA;
+      });
+    }
+
+    return filtered;
+  }, [selectedCategory, selectedTag, searchQuery, sortBy]);
 
   useEffect(() => {
     if (!isPlaying || featuredArticles.length === 0) return;
@@ -89,6 +112,38 @@ function News() {
       )}
 
       <section className="section soft" style={{ paddingTop: '2rem' }}>
+        <div className="news-header">
+          <div className="news-search-container">
+            <span className="material-symbols-outlined" style={{ position: 'absolute', left: '12px', top: '12px', color: '#94a3b8' }}>search</span>
+            <input
+              type="text"
+              placeholder="Search articles..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="news-search-input"
+            />
+          </div>
+          
+          <div className="news-sort-container">
+            <label htmlFor="sort-select" style={{ marginRight: '8px', fontSize: '14px', fontWeight: '500' }}>Sort by:</label>
+            <select 
+              id="sort-select"
+              value={sortBy} 
+              onChange={(e) => setSortBy(e.target.value)}
+              className="news-sort-select"
+            >
+              <option value="newest">Newest First</option>
+              <option value="oldest">Oldest First</option>
+              <option value="title">Title (A-Z)</option>
+              <option value="popular">Most Popular</option>
+            </select>
+          </div>
+
+          <div className="news-article-count">
+            {filteredArticles.length} {filteredArticles.length === 1 ? 'article' : 'articles'}
+          </div>
+        </div>
+
         <div className="filters">
           <div className="filter-group">
             <span className="filter-label">Category</span>

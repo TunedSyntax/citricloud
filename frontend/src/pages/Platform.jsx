@@ -6,7 +6,6 @@ function Platform() {
       <section className="hero">
         <div className="hero-inner">
           <div className="hero-copy">
-            <div className="badge">Platform Suite</div>
             <h1>Deliver a unified cloud platform with developer-ready guardrails.</h1>
             <p>
               Citricloud Platform aligns architecture, policy, and automation so teams ship faster

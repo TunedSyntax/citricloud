@@ -6,7 +6,6 @@ function Sitemap() {
       <section className="hero">
         <div className="hero-inner">
           <div className="hero-copy">
-            <div className="badge">Site Index</div>
             <h1>Explore every Citricloud page.</h1>
             <p>Quick access to product, services, company, and legal resources.</p>
           </div>

@@ -4,7 +4,6 @@ function PrivacyPolicy() {
       <section className="hero">
         <div className="hero-inner">
           <div className="hero-copy">
-            <div className="badge">Privacy Hub</div>
             <h1>We protect your data and respect your privacy.</h1>
             <p>Learn how we collect, use, and safeguard information.</p>
           </div>

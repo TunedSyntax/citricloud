@@ -6,7 +6,6 @@ function Pricing() {
       <section className="hero">
         <div className="hero-inner">
           <div className="hero-copy">
-            <div className="badge">Engagement Plans</div>
             <h1>Pricing designed for platform outcomes.</h1>
             <p>Flexible tiers that scale with your organization, from pilot to enterprise rollout.</p>
             <div className="cta-row">

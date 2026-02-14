@@ -4,7 +4,6 @@ function CookiePolicy() {
       <section className="hero">
         <div className="hero-inner">
           <div className="hero-copy">
-            <div className="badge">Cookie Center</div>
             <h1>How we use cookies on Citricloud.</h1>
             <p>We use cookies to improve performance, security, and analytics.</p>
           </div>

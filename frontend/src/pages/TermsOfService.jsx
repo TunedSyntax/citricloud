@@ -4,7 +4,6 @@ function TermsOfService() {
       <section className="hero">
         <div className="hero-inner">
           <div className="hero-copy">
-            <div className="badge">Service Terms</div>
             <h1>Clear, fair terms for using Citricloud services.</h1>
             <p>These terms outline responsibilities, usage, and limitations.</p>
           </div>

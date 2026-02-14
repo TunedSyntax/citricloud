@@ -6,7 +6,6 @@ function Careers() {
       <section className="hero">
         <div className="hero-inner">
           <div className="hero-copy">
-            <div className="badge">Join Citricloud</div>
             <h1>Join a team shaping the future of cloud delivery.</h1>
             <p>We hire engineers and consultants who love impact, ownership, and collaboration.</p>
             <div className="cta-row">

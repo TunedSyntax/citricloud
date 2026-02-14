@@ -6,7 +6,6 @@ function PlatformEngineering() {
       <section className="hero">
         <div className="hero-inner">
           <div className="hero-copy">
-            <div className="badge">Platform Studio</div>
             <h1>Build an internal developer platform teams love to use.</h1>
             <p>Golden paths, automation, and enablement that reduce toil and improve reliability.</p>
             <div className="cta-row">

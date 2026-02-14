@@ -6,7 +6,6 @@ function CloudStrategy() {
       <section className="hero">
         <div className="hero-inner">
           <div className="hero-copy">
-            <div className="badge">Strategy Lab</div>
             <h1>Design a cloud roadmap that aligns cost, speed, and security.</h1>
             <p>We help you establish a practical roadmap and operating model that scales.</p>
             <div className="cta-row">

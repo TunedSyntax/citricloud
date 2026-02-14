@@ -21,6 +21,13 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import CookiePolicy from "./pages/CookiePolicy";
 import Docs from "./pages/Docs";
+import Dashboard from "./pages/Dashboard";
+import Settings from "./pages/Settings";
+import Notifications from "./pages/Notifications";
+import Documentation from "./pages/Documentation";
+import Support from "./pages/Support";
+import Products from "./pages/Products";
+import Solutions from "./pages/Solutions";
 
 // Determine API URL based on environment
 const getApiUrl = () => {
@@ -230,17 +237,35 @@ function Layout({ token, profile, onLogout, children }) {
                 <div className="nav-profile-avatar">
                   {profile?.email?.charAt(0).toUpperCase() || "U"}
                 </div>
-                <span>{profile?.email?.split("@")[0] || "User"}</span>
+                <span className="material-symbols-outlined">expand_more</span>
               </button>
               <div className="nav-profile-menu">
-                <a href="#">📊 Dashboard</a>
-                <a href="#">⚙️ Settings</a>
-                <a href="#">🔔 Notifications</a>
+                <NavLink to="/dashboard" onClick={() => setProfileMenuOpen(false)}>
+                  <span className="material-symbols-outlined">dashboard</span>
+                  Dashboard
+                </NavLink>
+                <NavLink to="/settings" onClick={() => setProfileMenuOpen(false)}>
+                  <span className="material-symbols-outlined">settings</span>
+                  Settings
+                </NavLink>
+                <NavLink to="/notifications" onClick={() => setProfileMenuOpen(false)}>
+                  <span className="material-symbols-outlined">notifications</span>
+                  Notifications
+                </NavLink>
                 <div className="divider"></div>
-                <a href="#">📚 Documentation</a>
-                <a href="#">💬 Support</a>
+                <NavLink to="/documentation" onClick={() => setProfileMenuOpen(false)}>
+                  <span className="material-symbols-outlined">library_books</span>
+                  Documentation
+                </NavLink>
+                <NavLink to="/support" onClick={() => setProfileMenuOpen(false)}>
+                  <span className="material-symbols-outlined">support_agent</span>
+                  Support
+                </NavLink>
                 <div className="divider"></div>
-                <button onClick={onLogout}>🚪 Log out</button>
+                <button onClick={onLogout}>
+                  <span className="material-symbols-outlined">logout</span>
+                  Log out
+                </button>
               </div>
             </div>
           ) : (
@@ -250,6 +275,22 @@ function Layout({ token, profile, onLogout, children }) {
           )}
         </div>
       </nav>
+      <div className="secondary-nav">
+        <div className="secondary-nav-inner">
+          <NavLink
+            to="/products"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            Products
+          </NavLink>
+          <NavLink
+            to="/solutions"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            Solutions
+          </NavLink>
+        </div>
+      </div>
       {mobileMenuOpen && (
         <div className="mobile-menu-overlay" onClick={() => setMobileMenuOpen(false)}>
           <div className="mobile-menu" onClick={(e) => e.stopPropagation()}>
@@ -357,6 +398,25 @@ function Layout({ token, profile, onLogout, children }) {
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Status
+                  </NavLink>
+                </div>
+              </div>
+              <div className="mobile-menu-section">
+                <div className="mobile-menu-section-title">Products & Solutions</div>
+                <div className="mobile-menu-section-content">
+                  <NavLink
+                    to="/products"
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Products
+                  </NavLink>
+                  <NavLink
+                    to="/solutions"
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Solutions
                   </NavLink>
                 </div>
               </div>
@@ -782,6 +842,22 @@ function App() {
           }
         />
         <Route
+          path="/products"
+          element={
+            <Layout token={token} profile={profile} onLogout={handleLogout}>
+              <Products />
+            </Layout>
+          }
+        />
+        <Route
+          path="/solutions"
+          element={
+            <Layout token={token} profile={profile} onLogout={handleLogout}>
+              <Solutions />
+            </Layout>
+          }
+        />
+        <Route
           path="/news/:id"
           element={
             <Layout token={token} profile={profile} onLogout={handleLogout}>
@@ -794,6 +870,46 @@ function App() {
           element={
             <Layout token={token} profile={profile} onLogout={handleLogout}>
               <Contact />
+            </Layout>
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+            <Layout token={token} profile={profile} onLogout={handleLogout}>
+              <Dashboard />
+            </Layout>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <Layout token={token} profile={profile} onLogout={handleLogout}>
+              <Settings />
+            </Layout>
+          }
+        />
+        <Route
+          path="/notifications"
+          element={
+            <Layout token={token} profile={profile} onLogout={handleLogout}>
+              <Notifications />
+            </Layout>
+          }
+        />
+        <Route
+          path="/documentation"
+          element={
+            <Layout token={token} profile={profile} onLogout={handleLogout}>
+              <Documentation />
+            </Layout>
+          }
+        />
+        <Route
+          path="/support"
+          element={
+            <Layout token={token} profile={profile} onLogout={handleLogout}>
+              <Support />
             </Layout>
           }
         />

@@ -11,9 +11,8 @@ export const newsCategories = [
 export const newsAllTags = [
   "All",
   "Kubernetes",
-  "AWS",
-  "GCP",
-  "Azure",
+  "Hetzner",
+  "Docker",
   "DevOps",
   "Security",
   "CI/CD",
@@ -24,7 +23,13 @@ export const newsAllTags = [
   "Serverless",
   "Migration",
   "Compliance",
-  "Best Practices"
+  "Best Practices",
+  "MCP",
+  "Github",
+  "Load Balancing",
+  "AWS",
+  "GCP",
+  "Azure"
 ];
 
 export const newsArticles = [
@@ -33,7 +38,7 @@ export const newsArticles = [
     title: "Introducing Citricloud Platform 2.0: Next-Generation Cloud Orchestration",
     excerpt: "We're excited to announce Platform 2.0 with enhanced security features, multi-cloud support, and intelligent cost optimization. Discover what's new and how it can accelerate your cloud journey.",
     category: "Product Updates",
-    tags: ["Kubernetes", "AWS", "GCP", "Azure"],
+    tags: ["Kubernetes", "Hetzner", "Docker", "Github", "Load Balancing"],
     date: "2026-02-10",
     readTime: "5 min",
     author: "Engineering Team",

@@ -6,7 +6,6 @@ function Security() {
       <section className="hero">
         <div className="hero-inner">
           <div className="hero-copy">
-            <div className="badge">Trust Center</div>
             <h1>Security guardrails embedded in every release.</h1>
             <p>
               Build secure-by-default delivery pipelines with continuous policy checks, access
